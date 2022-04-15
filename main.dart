@@ -1,11 +1,17 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jabazonflutter/adminhomepage.dart';
 import 'package:jabazonflutter/covid19dailycases.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:jabazonflutter/covid19dailycaseschart.dart';
 import 'package:jabazonflutter/covid19dailydeathcases.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jabazonflutter/location.dart';
+import 'package:jabazonflutter/user_login.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'L10n.dart';
 import 'covid19dailydeathcasechart.dart';
 
 void main() => runApp(MyApp());
@@ -15,6 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: L1on.all,
       home: HomePage(),
     );
   }
@@ -23,6 +35,10 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    AppBar(
+      title: Text('Jabazon')
+    );
+
     final List<covid19dailycases> data = [
       covid19dailycases(
           day: "11th April 2022",
@@ -52,6 +68,19 @@ class HomePage extends StatelessWidget{
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: Text("Jabazon"),
+          actions: <Widget>[
+      Padding(
+      padding: EdgeInsets.only(right: 20.0),
+        child: GestureDetector(
+            onTap: (){
+              //this one change the adminhomepage to userlogin 
+              Navigator.push(context, MaterialPageRoute(builder:(context) => adminhomepage()));
+            },
+            child: Icon(Icons.account_circle_outlined,
+              size: 30.0,
+            )
+        )
+      ),],
       ),
       body: Center(
         child: Container(
@@ -64,6 +93,9 @@ class HomePage extends StatelessWidget{
               covid19dailydeathcasechart(
                 datalist: series,
               ),
+              ElevatedButton(
+                  onPressed: (){},
+                  child: Text('View List of clinics here')),
             ],
           )
         )
